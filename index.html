@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Security: strict CSP. Everything is same-origin; no third-party calls.
+       Note: frame-ancestors / X-Frame-Options can only be set as real HTTP
+       headers (GitHub Pages can't). See README for the free Cloudflare option. -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; img-src 'self' data:; style-src 'self'; font-src 'self'; base-uri 'self'; form-action 'self' https:; manifest-src 'self'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#E9E2D2">
+
+  <title>aslam.wordsmith – penyuntingan &amp; reka letak</title>
+  <meta name="description" content="Khidmat penyuntingan dan reka letak buku oleh aslam.wordsmith – untuk penulis dan penerbit yang serius dengan karya mereka.">
+
+  <!-- Open Graph (for sharing on Threads / WhatsApp). Add an og:image later; see README. -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ms_MY">
+  <meta property="og:title" content="aslam.wordsmith – penyuntingan &amp; reka letak">
+  <meta property="og:description" content="Khidmat penyuntingan dan reka letak buku untuk penulis dan penerbit yang serius dengan karya mereka.">
+  <!-- <meta property="og:url" content="https://YOURDOMAIN/"> -->
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/crimson-pro.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#kandungan">Langkau ke kandungan</a>
+
+  <!-- ============ Running head ============ -->
+  <header class="masthead">
+    <div class="wrap">
+      <a class="brand" href="#">aslam<span class="dot">.</span>wordsmith</a>
+      <nav class="mast-nav" aria-label="Navigasi laman">
+        <a href="#karya">Karya</a>
+        <a href="#khidmat">Khidmat</a>
+        <a href="#proses">Proses</a>
+      </nav>
+      <!-- TODO: replace href with your real request form (Google Form / Tally). See README. -->
+      <a class="btn" href="" target="_blank" rel="noopener noreferrer">
+        Hantar permintaan <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="kandungan">
+
+    <!-- ============ Title page (hero) ============ -->
+    <section class="title-page wrap" aria-label="Pengenalan">
+      <p class="half-title">Penyuntingan &middot; Reka&nbsp;letak</p>
+      <h1 class="wordmark">aslam<span class="dot">.</span>wordsmith</h1>
+      <!-- Tagline (kept as-is per brand decision). -->
+      <p class="tagline">Perkataan yang ditimbang,<br>halaman yang dibentuk.</p>
+      <hr class="title-rule" aria-hidden="true">
+      <p class="lede">Khidmat penyuntingan dan reka letak untuk penulis serta penerbit yang mahukan naskhah mereka dibaca dengan teliti – dan diterbitkan dengan rasa.</p>
+      <div class="title-cta">
+        <a class="btn" href="" target="_blank" rel="noopener noreferrer">
+          Hantar permintaan <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <a class="btn btn--ghost" href="#khidmat">Lihat kadar</a>
+      </div>
+    </section>
+
+    <!-- ============ Prakata / Who ============ -->
+    <section class="leaf" id="tentang">
+      <div class="wrap">
+        <div class="leaf-grid">
+          <aside class="margin">
+            <span class="eyebrow">Prakata</span>
+            <span class="folio">i</span>
+          </aside>
+          <div class="leaf-body">
+            <div class="who-text prose measure">
+              <h2 class="lead-statement">
+                Seorang penulis.<br>
+                <span class="accent">Seorang penyunting.</span>
+              </h2>
+              <p class="has-dropcap">Saya Aslam – penulis, editor, dan pereka letak buku, serta orang di sebalik sebuah penerbitan. Sejak bertahun-tahun, kerja saya berkisar pada satu perkara yang sama: membantu sesebuah naskhah menjadi versi terbaik dirinya, dari struktur cerita sehingga ke baris terakhir di atas halaman.</p>
+              <p>Pendekatan saya teliti dan tidak tergesa-gesa. Saya membaca rapat, menyunting dengan menghormati suara penulis, dan menyusun atur setiap buku mengikut piawai cetakan yang kemas. Jika anda serius dengan karya anda, saya akan menyambutnya dengan keseriusan yang sama.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Karya / Work ============ -->
+    <!-- Two groups: books Aslam wrote, and books he laid out for others.
+         TO ADD a book: drop a cover into media/covers/, copy a <figure class="work …">
+         block in the right group, and update src/alt/title/role.
+         Variants: work--flat (flat cover image), work--mockup (3D mockup PNG/WebP),
+         work--soon (forthcoming teaser, no cover). -->
+    <section class="leaf leaf--alt" id="karya">
+      <div class="wrap">
+        <div class="leaf-grid">
+          <aside class="margin">
+            <span class="eyebrow">Karya</span>
+            <span class="folio">ii</span>
+          </aside>
+          <div class="leaf-body">
+            <h2 class="leaf-head">Karya.</h2>
+            <p class="leaf-sub">Buku yang saya tulis – dan buku yang saya bentuk untuk penerbit lain.</p>
+
+            <!-- Group 1: Aslam's own books -->
+            <div class="work-group">
+              <h3 class="work-group-title">Tulisan saya</h3>
+              <div class="works">
+                <figure class="work work--flat">
+                  <div class="work-cover">
+                    <img class="work-img" src="media/covers/cerita-cerita-pelik.webp"
+                         alt="Kulit buku: Cerita-Cerita Pelik dari Pinggir Katil"
+                         width="800" height="1230" loading="lazy" decoding="async">
+                  </div>
+                  <figcaption class="work-cap">
+                    <span class="work-title">Cerita-Cerita Pelik dari Pinggir Katil</span>
+                    <span class="work-role">&middot; Kumpulan cerpen &middot; 2025</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="work work--soon">
+                  <div class="work-cover">
+                    <div class="soon">
+                      <span class="soon-label">Akan datang</span>
+                      <span class="soon-year">2027</span>
+                    </div>
+                  </div>
+                  <figcaption class="work-cap">
+                    <span class="work-title">Novela</span>
+                    <span class="work-role">Belum diumumkan</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="work work--soon">
+                  <div class="work-cover">
+                    <div class="soon">
+                      <span class="soon-label">Akan datang</span>
+                      <span class="soon-year">2027</span>
+                    </div>
+                  </div>
+                  <figcaption class="work-cap">
+                    <span class="work-title">Novel</span>
+                    <span class="work-role">Belum diumumkan</span>
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+
+            <!-- Group 2: editorial / layout work for other publishers -->
+            <div class="work-group">
+              <h3 class="work-group-title">Suntingan &amp; reka letak</h3>
+              <div class="works">
+                <figure class="work work--flat">
+                  <div class="work-cover">
+                    <img class="work-img" src="media/covers/manusia-moden-depan.webp"
+                         alt="Kulit buku: Manusia Moden dalam Pencarian Jiwa"
+                         width="1600" height="2462" loading="lazy" decoding="async">
+                  </div>
+                  <figcaption class="work-cap">
+                    <span class="work-title">Manusia Moden dalam Pencarian Jiwa</span>
+                    <span class="work-role">Reka letak</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="work work--flat">
+                  <div class="work-cover">
+                    <img class="work-img" src="media/covers/wacana-psikologi-depan.webp"
+                         alt="Kulit buku: Wacana Psikologi: Psike dan Realiti"
+                         width="1600" height="2462" loading="lazy" decoding="async">
+                  </div>
+                  <figcaption class="work-cap">
+                    <span class="work-title">Wacana Psikologi: Psike dan Realiti</span>
+                    <span class="work-role">Reka letak</span>
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Khidmat & Kadar (services + rates, merged) ============ -->
+    <section class="leaf" id="khidmat">
+      <div class="wrap">
+        <div class="leaf-grid">
+          <aside class="margin">
+            <span class="eyebrow">Khidmat</span>
+            <span class="folio">iii</span>
+          </aside>
+          <div class="leaf-body">
+            <h2 class="leaf-head">Khidmat &amp; kadar.</h2>
+            <p class="leaf-sub">Apa yang boleh saya bantu dengan naskhah anda, berserta kadar permulaannya.</p>
+
+            <div class="toc">
+              <div class="toc-item">
+                <div class="toc-head">
+                  <h3 class="toc-title">Suntingan struktur <span class="toc-en">(Developmental editing)</span></h3>
+                  <span class="toc-price">RM 6 <span class="toc-unit">/ halaman</span></span>
+                </div>
+                <p class="toc-desc">Menilai bentuk keseluruhan naskhah – plot, watak, alur, dan suara – sebelum kita perhalus ayat demi ayat.</p>
+              </div>
+              <div class="toc-item">
+                <div class="toc-head">
+                  <h3 class="toc-title">Suntingan bahasa &amp; gaya <span class="toc-en">(Copy editing)</span></h3>
+                  <span class="toc-price">RM 5 <span class="toc-unit">/ halaman</span></span>
+                </div>
+                <p class="toc-desc">Memperkemas ayat, nada, ritma, dan konsistensi supaya prosa membaca dengan licin tanpa kehilangan suara anda.</p>
+              </div>
+              <div class="toc-item">
+                <div class="toc-head">
+                  <h3 class="toc-title">Baca pruf <span class="toc-en">(Proofreading)</span></h3>
+                  <span class="toc-price">RM 4 <span class="toc-unit">/ halaman pruf</span></span>
+                </div>
+                <p class="toc-desc">Saringan akhir untuk ejaan, tanda baca, dan ralat kecil sebelum naskhah dihantar ke percetakan.</p>
+              </div>
+              <div class="toc-item">
+                <div class="toc-head">
+                  <h3 class="toc-title">Reka letak &amp; tipografi <span class="toc-en">(Typesetting &amp; layout)</span></h3>
+                  <span class="toc-price">RM 5&#8211;6 <span class="toc-unit">/ halaman</span></span>
+                </div>
+                <p class="toc-desc">Menyusun atur naskhah untuk cetakan: tipografi, margin, dan halaman yang kemas serta selesa dibaca.</p>
+              </div>
+            </div>
+
+            <p class="rate-note">Harga di atas ialah kadar permulaan; kadar per halaman dikira pada format standard (12pt, langkau baris 2.0). Pusing masa biasa 14&#8211;30 hari bekerja, dan kerja segera dikenakan caj tambahan. Anda akan menerima sebut harga muktamad selepas menghantar permintaan.</p>
+            <p class="leaf-sub">Ada keperluan lain? Sebutkan dalam permintaan anda dan kita bincangkan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Proses / Process (a genuine sequence) ============ -->
+    <section class="leaf leaf--alt" id="proses">
+      <div class="wrap">
+        <div class="leaf-grid">
+          <aside class="margin">
+            <span class="eyebrow">Proses</span>
+            <span class="folio">iv</span>
+          </aside>
+          <div class="leaf-body">
+            <h2 class="leaf-head">Cara kerja.</h2>
+            <p class="leaf-sub">Dari permintaan ke naskhah siap, dalam empat langkah.</p>
+
+            <ol class="steps">
+              <li class="step">
+                <div>
+                  <h3>Hantar permintaan</h3>
+                  <p>Isi borang ringkas tentang projek anda: jenis naskhah, panjang, dan tarikh yang anda harapkan.</p>
+                </div>
+              </li>
+              <li class="step">
+                <div>
+                  <h3>Bincang skop</h3>
+                  <p>Kita berbincang untuk menetapkan keperluan sebenar dan jangkaan kedua-dua pihak.</p>
+                </div>
+              </li>
+              <li class="step">
+                <div>
+                  <h3>Sebut harga</h3>
+                  <p>Anda menerima sebut harga dan jadual kerja yang jelas sebelum apa-apa bermula.</p>
+                </div>
+              </li>
+              <li class="step">
+                <div>
+                  <h3>Mula kerja</h3>
+                  <p>Selepas anda sahkan, kerja bermula dan anda dimaklumkan pada setiap peringkat.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Closing call ============ -->
+    <section class="closing" id="hubungi">
+      <div class="wrap">
+        <h2 class="leaf-head">Sedia untuk mula?</h2>
+        <p>Hantar permintaan anda dan saya akan kembali kepada anda dengan langkah seterusnya.</p>
+        <a class="btn" href="" target="_blank" rel="noopener noreferrer">
+          Hantar permintaan <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ Kolofon / Footer ============ -->
+  <footer class="kolofon">
+    <div class="wrap">
+      <div class="kolofon-top">
+        <span class="kolofon-brand">aslam<span class="dot">.</span>wordsmith</span>
+        <nav class="kolofon-links" aria-label="Hubungi">
+          <a href="https://www.threads.com/@aslam.wordsmith" target="_blank" rel="noopener noreferrer">Threads</a>
+          <a href="mailto:aslam.wordsmith@gmail.com">E-mel</a>
+        </nav>
+      </div>
+      <div class="kolofon-fine">
+        <span>&copy; 2026 aslam.wordsmith – disusun, disunting &amp; diterbitkan sendiri.</span>
+        <span>Permintaan diuruskan melalui borang luar. Laman ini tidak mengumpul sebarang data anda.</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

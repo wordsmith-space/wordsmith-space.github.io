@@ -1,0 +1,11 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Node (not needed at runtime — only if you add build tooling later)
+node_modules/
+package-lock.json
+.gstack/

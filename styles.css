@@ -1,0 +1,684 @@
+/* =========================================================================
+   aslam.wordsmith — laman profil & kadar khidmat
+   Concept: the page set like the interior of a finely-made book.
+   Display: Fraunces (variable, all axes) · Body: Crimson Pro · Utility: system mono
+   Palette: fountain-pen ink + warm oat paper + a single editor's proof-red.
+   No JavaScript. No third-party requests. Self-hosted fonts only.
+   ========================================================================= */
+
+/* ----- Fonts (self-hosted, variable) ------------------------------------ */
+@font-face {
+  font-family: "Fraunces";
+  src: url("fonts/fraunces.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("fonts/crimson-pro.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("fonts/crimson-pro-italic.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ----- Tokens ----------------------------------------------------------- */
+:root {
+  /* colour */
+  --paper:      #E9E2D2;  /* warm oat — the page */
+  --paper-2:    #E3DBC8;  /* a deeper leaf for set-apart blocks */
+  --ink:        #21242C;  /* deep blue-black — fountain-pen ink */
+  --ink-soft:   #5C5849;  /* muted ink — secondary text */
+  --ink-faint:  #8A8470;  /* marginalia, folios (decorative) */
+  --proof:      #A8322B;  /* the editor's red */
+  --proof-deep: #872820;
+  --rule:       #C8BEA7;  /* hairlines */
+  --rule-soft:  #D5CCB8;
+
+  /* type */
+  --display: "Fraunces", Georgia, "Times New Roman", serif;
+  --body:    "Crimson Pro", Georgia, "Times New Roman", serif;
+  --mono:    ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
+
+  /* measure & rhythm */
+  --gutter:    clamp(1.35rem, 5.5vw, 3.25rem);
+  --leaf-pad:  clamp(3.5rem, 9vw, 7.5rem);
+  --measure:   36rem;
+  --wrap:      66rem;
+}
+
+/* ----- Reset ------------------------------------------------------------ */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body { min-height: 100%; }
+img, svg { display: block; max-width: 100%; }
+ul, ol { list-style: none; padding: 0; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--proof); outline-offset: 3px; border-radius: 1px; }
+::selection { background: var(--proof); color: var(--paper); }
+
+/* ----- Base ------------------------------------------------------------- */
+body {
+  font-family: var(--body);
+  font-weight: 400;
+  font-size: clamp(1.0625rem, 0.98rem + 0.4vw, 1.2rem);
+  line-height: 1.62;
+  color: var(--ink);
+  background: var(--paper);
+  font-feature-settings: "liga" 1, "calt" 1, "onum" 1; /* old-style figures */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* faint paper grain — extremely subtle, sits above the page, ignores clicks */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+p { text-wrap: pretty; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+
+/* links inside prose */
+.prose a {
+  color: var(--proof-deep);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--rule);
+}
+.prose a:hover { text-decoration-color: var(--proof); }
+
+/* ----- Skip link -------------------------------------------------------- */
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.6rem 1rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  z-index: 10000;
+}
+.skip:focus { left: 0.5rem; top: 0.5rem; }
+
+/* ----- Shared layout primitives ----------------------------------------- */
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.measure { max-width: var(--measure); }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* a small editorial proof-mark (caret) used very sparingly */
+.proof-caret {
+  color: var(--proof);
+  font-family: var(--display);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+/* ----- Masthead (running head) ------------------------------------------ */
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--rule-soft);
+}
+.masthead .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.75rem;
+}
+.brand {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 1.18rem;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 40, "wght" 500, "SOFT" 0, "WONK" 0;
+  text-decoration: none;
+  color: var(--ink);
+}
+.brand .dot { color: var(--proof); }
+.mast-nav {
+  display: none;
+  gap: 1.6rem;
+  align-items: center;
+}
+.mast-nav a {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.mast-nav a:hover { color: var(--ink); }
+
+/* button ----------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.7em 1.15em;
+  border: 1px solid var(--ink);
+  color: var(--paper);
+  background: var(--ink);
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+.btn:hover { background: var(--proof); border-color: var(--proof); }
+.btn:active { transform: translateY(1px); }
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+}
+.btn--ghost:hover { background: transparent; color: var(--proof); border-color: var(--proof); }
+.btn .arrow { font-family: var(--body); font-size: 1.1em; line-height: 1; }
+
+.masthead .btn { padding: 0.5em 0.95em; }
+
+/* ----- Hero: the title page --------------------------------------------- */
+.title-page {
+  text-align: center;
+  padding-block: clamp(4rem, 12vw, 9rem) clamp(3.25rem, 8vw, 6rem);
+  display: grid;
+  justify-items: center;
+  gap: clamp(1.1rem, 2.5vw, 1.6rem);
+}
+.title-page .half-title { /* the small line above the title, as in a book */
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.wordmark {
+  font-family: var(--display);
+  font-weight: 380;
+  font-size: clamp(3rem, 12.5vw, 6.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 144, "wght" 380, "SOFT" 26, "WONK" 0;
+}
+.wordmark .dot { color: var(--proof); }
+.tagline {
+  font-style: italic;
+  font-size: clamp(1.25rem, 3.5vw, 1.7rem);
+  line-height: 1.35;
+  color: var(--ink);
+  max-width: 22ch;
+}
+.title-rule {
+  width: 4.5rem;
+  border-top: 1.5px solid var(--proof);
+  margin-block: 0.4rem;
+}
+.lede {
+  max-width: 38ch;
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.28rem);
+  color: var(--ink-soft);
+}
+.title-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  justify-content: center;
+  margin-top: 0.6rem;
+}
+
+/* ----- Leaf (a section, set like a book leaf) --------------------------- */
+.leaf { padding-block: var(--leaf-pad); }
+.leaf--alt { background: var(--paper-2); }
+.leaf--alt + .leaf--alt { padding-top: 0; }
+
+.leaf-grid { display: grid; gap: 1.4rem; }
+
+/* the marginal column: section label + folio, like the head of a printed page */
+.margin {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--rule);
+}
+.folio {
+  display: none;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+}
+
+.leaf-head {
+  font-family: var(--display);
+  font-weight: 420;
+  font-size: clamp(1.9rem, 1.4rem + 2vw, 2.9rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  font-variation-settings: "opsz" 80, "wght" 420, "SOFT" 14, "WONK" 0;
+  margin-top: 0.9rem;
+}
+.leaf-sub {
+  margin-top: 0.75rem;
+  color: var(--ink-soft);
+}
+
+/* prose with a drop cap on the opening paragraph */
+.prose p + p { margin-top: 1.1rem; }
+.has-dropcap::first-letter {
+  font-family: var(--display);
+  font-variation-settings: "opsz" 144, "wght" 460, "SOFT" 0, "WONK" 0;
+  float: left;
+  font-size: 3.4em;
+  line-height: 0.74;
+  padding-right: 0.08em;
+  padding-top: 0.04em;
+  color: var(--proof);
+}
+
+/* ----- Who block: lead statement + portrait (borrowed structure) -------- */
+.who-grid { display: grid; gap: clamp(1.4rem, 4vw, 2.4rem); }
+
+.lead-statement {
+  font-family: var(--display);
+  font-weight: 440;
+  font-size: clamp(1.85rem, 1.3rem + 2.3vw, 2.95rem);
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 80, "wght" 440, "SOFT" 16, "WONK" 0;
+  margin-bottom: 1.15rem;
+}
+.lead-statement .accent { color: var(--proof); }
+
+.portrait { margin: 0; max-width: 15rem; }
+.portrait img,
+.portrait-ph {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--rule);
+  background: var(--paper-2);
+}
+.portrait img { object-fit: cover; }
+.portrait-ph { display: grid; place-items: center; }
+.portrait-ph span {
+  font-family: var(--display);
+  font-size: clamp(2.6rem, 9vw, 4rem);
+  color: var(--ink-faint);
+  font-variation-settings: "opsz" 144, "wght" 360, "SOFT" 22, "WONK" 0;
+}
+.portrait-ph .dot { color: var(--proof); }
+
+/* ----- Karya terpilih: a shelf of covers -------------------------------- */
+.works {
+  margin-top: 1.6rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.2rem, 3vw, 1.9rem) clamp(1rem, 3vw, 1.6rem);
+}
+.work { margin: 0; }
+.work-cover {
+  display: grid;
+  place-items: end center;
+  overflow: visible;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 3D mockup: floats on the paper with a shape-following shadow, no frame */
+.work--mockup .work-cover { aspect-ratio: 800 / 1371; }
+.work--mockup .work-img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 9px 16px rgba(33, 36, 44, 0.15));
+  transition: filter 0.2s ease;
+}
+
+/* flat cover: a framed rectangle with a soft drop shadow */
+.work--flat .work-cover {
+  aspect-ratio: 130 / 200;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  box-shadow: 0 10px 24px -14px rgba(33, 36, 44, 0.55);
+  background: var(--paper-2);
+}
+.work--flat .work-img { width: 100%; height: 100%; object-fit: cover; }
+
+/* forthcoming teaser: a quiet cover-shaped card, no image */
+.work--soon .work-cover {
+  aspect-ratio: 130 / 200;
+  border: 1px dashed var(--rule);
+  background: var(--paper);
+  place-items: center;
+}
+.soon { display: grid; justify-items: center; gap: 0.3rem; text-align: center; padding: 0.5rem; }
+.soon-label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.soon-year {
+  font-family: var(--display);
+  font-size: clamp(1.7rem, 1.2rem + 2vw, 2.4rem);
+  line-height: 1;
+  color: var(--ink-faint);
+  font-variation-settings: "opsz" 72, "wght" 380, "SOFT" 18, "WONK" 0;
+}
+
+/* groups within Karya */
+.work-group + .work-group { margin-top: clamp(2.2rem, 5vw, 3.25rem); }
+.work-group-title {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 1.5rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--rule);
+}
+.work-group .works { margin-top: 1.25rem; }
+.work-cap { display: block; margin-top: 0.7rem; }
+.work-title {
+  display: block;
+  font-family: var(--display);
+  font-weight: 480;
+  font-size: 1.08rem;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 40, "wght" 480, "SOFT" 10, "WONK" 0;
+}
+.work-role {
+  display: block;
+  margin-top: 0.18rem;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--proof-deep);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .work:hover .work-cover { transform: translateY(-4px); }
+  .work--mockup:hover .work-img { filter: drop-shadow(0 16px 22px rgba(33, 36, 44, 0.22)); }
+  .work--flat:hover .work-cover { box-shadow: 0 16px 30px -14px rgba(33, 36, 44, 0.6); }
+}
+
+/* ----- Khidmat (services), set like a contents list --------------------- */
+.toc { margin-top: 1.4rem; }
+.toc-item {
+  padding-block: 1.15rem;
+  border-top: 1px solid var(--rule);
+}
+.toc-item:last-of-type { border-bottom: 1px solid var(--rule); }
+.toc-title {
+  font-family: var(--display);
+  font-weight: 460;
+  font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.65rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 50, "wght" 460, "SOFT" 12, "WONK" 0;
+}
+.toc-desc { margin-top: 0.3rem; color: var(--ink-soft); font-size: 1.02rem; line-height: 1.5; }
+.toc-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.2rem 1.5rem;
+}
+.toc-en {
+  font-size: 0.6em;
+  font-weight: 400;
+  color: var(--ink-soft);
+  letter-spacing: 0;
+  font-variation-settings: "opsz" 30, "wght" 400, "SOFT" 12, "WONK" 0;
+}
+.toc-price {
+  font-family: var(--display);
+  font-weight: 480;
+  font-size: clamp(1.2rem, 1.05rem + 0.7vw, 1.5rem);
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 40, "wght" 480, "SOFT" 0, "WONK" 0;
+  white-space: nowrap;
+  color: var(--ink);
+}
+.toc-price .toc-unit {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ----- Kadar (rate card), set like a back-matter price list ------------- */
+.rates { margin-top: 1.5rem; }
+.rate-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 1.5rem;
+  align-items: baseline;
+  padding-block: 1.05rem;
+  border-top: 1px solid var(--rule);
+}
+.rate-row:last-of-type { border-bottom: 1px solid var(--rule); }
+.rate-name {
+  font-family: var(--display);
+  font-weight: 460;
+  font-size: clamp(1.2rem, 1.05rem + 0.7vw, 1.5rem);
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 48, "wght" 460, "SOFT" 12, "WONK" 0;
+  grid-column: 1;
+}
+.rate-unit {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  grid-column: 1;
+  grid-row: 2;
+}
+.rate-price {
+  font-family: var(--display);
+  font-weight: 480;
+  font-size: clamp(1.2rem, 1.05rem + 0.7vw, 1.5rem);
+  font-variation-settings: "opsz" 40, "wght" 480, "SOFT" 0, "WONK" 0;
+  white-space: nowrap;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+}
+.rate-note {
+  margin-top: 1.3rem;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+
+/* ----- Proses (a genuine sequence → numbered) --------------------------- */
+.steps { counter-reset: step; margin-top: 1.5rem; display: grid; gap: 0; }
+.step {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.1rem;
+  padding-block: 1.2rem;
+  border-top: 1px solid var(--rule);
+}
+.step:last-child { border-bottom: 1px solid var(--rule); }
+.step::before {
+  content: counter(step, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--proof);
+  letter-spacing: 0.08em;
+  padding-top: 0.4rem;
+}
+.step h3 {
+  font-family: var(--display);
+  font-weight: 460;
+  font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.45rem);
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 46, "wght" 460, "SOFT" 12, "WONK" 0;
+}
+.step p { margin-top: 0.3rem; color: var(--ink-soft); font-size: 1.02rem; line-height: 1.5; }
+
+/* ----- Closing call ----------------------------------------------------- */
+.closing {
+  text-align: center;
+  background: var(--ink);
+  color: var(--paper);
+  padding-block: clamp(4rem, 10vw, 7rem);
+}
+.closing .leaf-head {
+  color: var(--paper);
+  margin-top: 0;
+  font-variation-settings: "opsz" 90, "wght" 400, "SOFT" 18, "WONK" 0;
+}
+.closing p { margin-top: 1rem; color: color-mix(in srgb, var(--paper) 78%, transparent); max-width: 40ch; margin-inline: auto; }
+.closing .btn {
+  margin-top: 2rem;
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--paper);
+}
+.closing .btn:hover { background: var(--proof); color: var(--paper); border-color: var(--proof); }
+
+/* ----- Kolofon (footer) ------------------------------------------------- */
+.kolofon { padding-block: clamp(3rem, 7vw, 5rem) 2.5rem; }
+.kolofon .wrap { display: grid; gap: 1.6rem; }
+.kolofon-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--rule);
+}
+.kolofon-brand {
+  font-family: var(--display);
+  font-weight: 460;
+  font-size: 1.6rem;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 60, "wght" 460, "SOFT" 16, "WONK" 0;
+}
+.kolofon-brand .dot { color: var(--proof); }
+.kolofon-links { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+.kolofon-links a {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.kolofon-links a:hover { color: var(--proof); }
+.kolofon-fine {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.6rem 2rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+}
+.kolofon-fine span { max-width: 60ch; }
+
+/* ----- Motion: one quiet page-load settle ------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .title-page > * {
+    animation: settle 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  }
+  .title-page > *:nth-child(1) { animation-delay: 0.05s; }
+  .title-page > *:nth-child(2) { animation-delay: 0.14s; }
+  .title-page > *:nth-child(3) { animation-delay: 0.24s; }
+  .title-page > *:nth-child(4) { animation-delay: 0.32s; }
+  .title-page > *:nth-child(5) { animation-delay: 0.40s; }
+  .title-page > *:nth-child(6) { animation-delay: 0.48s; }
+  @keyframes settle {
+    from { opacity: 0; transform: translateY(0.6rem); }
+    to   { opacity: 1; transform: none; }
+  }
+}
+
+/* ----- Responsive: open the book on wider screens ----------------------- */
+@media (min-width: 48rem) {
+  .leaf-grid {
+    grid-template-columns: 8.5rem 1fr;
+    column-gap: clamp(1.5rem, 4vw, 3.25rem);
+  }
+  .margin {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.4rem;
+    border-bottom: 0;
+    border-right: 1px solid var(--rule);
+    padding-right: 1rem;
+    padding-bottom: 0;
+    position: sticky;
+    top: 5rem;
+    align-self: start;
+  }
+  .folio { display: block; }
+  .leaf-head { margin-top: 0; }
+
+  .who-grid {
+    grid-template-columns: minmax(11rem, 14rem) 1fr;
+    column-gap: clamp(1.6rem, 4vw, 2.8rem);
+    align-items: start;
+  }
+  .lead-statement { margin-top: -0.15em; } /* optically align cap-height with portrait top */
+  .works { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 60rem) {
+  .mast-nav { display: flex; }
+}
